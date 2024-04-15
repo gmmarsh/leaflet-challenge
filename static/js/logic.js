@@ -18,6 +18,7 @@ d3.json(url).then(data => {
         let earthquake = earthquakes[i]
         let lat = earthquake.geometry.coordinates[1]
         let lon = earthquake.geometry.coordinates[0]
+        let depth = earthquake.geometry.coordinates[2]
         let mag = earthquake.properties.mag
         let place = earthquake.properties.place
         let time = earthquake.properties.time
@@ -31,6 +32,22 @@ d3.json(url).then(data => {
         }).addTo(map)
 
         // bind a popup to the circle marker
-        circle.bindPopup(`<h1>${place}</h1><hr><h3>Magnitude: ${mag}</h3><h3>Time: ${new Date(time)}</h3>`)
+        circle.bindPopup(`<h1>${place}</h1><hr><h3>Magnitude: ${mag}</h3><h3>Time: ${new Date(time)}</h3><h3>Depth: ${depth}</h3>`)
+
+    // markers change color based on depth
+        if (depth > 90) {
+            circle.setStyle({fillColor: 'red'})
+        } else if (depth > 70) {
+            circle.setStyle({fillColor: 'orange'})
+        } else if (depth > 50) {
+            circle.setStyle({fillColor: 'yellow'})
+        } else if (depth > 30) {
+            circle.setStyle({fillColor: 'green'})
+        } else if (depth > 10) {
+            circle.setStyle({fillColor: 'blue'})
+        } else {
+            circle.setStyle({fillColor: 'purple'})
+        }
+    }
 }
-})
+)
